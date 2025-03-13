@@ -14,7 +14,7 @@
         <div id="actionManager"  *ngIf="roleName == 'manager'">
             <button class="approve" (click)="updateItemM(item.appointmentId,item,2)">Approve</button>
             <button (click)="updateItemM(item.appointmentId,item,3)">Cancel</button>
-            <button (click)="deleteAppointment(item.appointmentId)">Delete</button>
+            <button *ngIf="item.appointmentStatusId == 3" (click)="deleteAppointment(item.appointmentId)" >Delete</button>
         </div>
     </li>   
 </ul>

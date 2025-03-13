@@ -14,9 +14,10 @@ import { CommonModule } from '@angular/common';
 })
 export class ListViewComponent implements OnInit {
   @Input() roleName: string = '';
-
   appointment?: AppointmentModel[];
- constructor(private appointmentService: AppointmentService,
+  errorMessage: string = '';
+  
+  constructor(private appointmentService: AppointmentService,
     private appointmentSharedService: AppointmentSharedService
   ) { }
 
@@ -82,7 +83,9 @@ deleteAppointment(id: number): void {
     },
     error => {
       console.error('Error deleting appointment', error);
-      alert('Error deleting appointment');
+      this.errorMessage = error.error || 'Error deleting appointment';
+      alert(this.errorMessage);
+      this.appointmentSharedService.triggerRefreshAppointments();
     }
   );
 }

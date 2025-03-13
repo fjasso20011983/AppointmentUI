@@ -23,6 +23,7 @@ export class AppointmentFormComponent implements OnInit {
     appointmentStatusName: new FormControl(''),
   });
   isUpdating: boolean = false;
+  errorMessage: string = '';
 
   appointment: AppointmentModel = new AppointmentModel(0, '', '', '', '', 0, 0);
   appointmentStatusOptions = [
@@ -67,8 +68,6 @@ export class AppointmentFormComponent implements OnInit {
     this.appointment.userid = 1;
     this.appointment.appointmentStatusId = 1;
 
-    console.log('Appointment', this.appointment);
-
     this.appointmentService.newAppointment(this.appointment).subscribe(
       response => {
         console.log('Appointment created successfully', response);
@@ -77,7 +76,9 @@ export class AppointmentFormComponent implements OnInit {
       },
       error => {
         console.error('Error creating appointment', error);
-        alert('Error creating appointment');
+        this.errorMessage = error.error || 'Error creating appointment';
+        alert(this.errorMessage);
+        this.appointmentSharedService.triggerRefreshAppointments();
       }
     );
   }
@@ -98,13 +99,14 @@ export class AppointmentFormComponent implements OnInit {
 
     this.appointmentService.updateAppointment(Number(this.appointment.appointmentId), this.appointment).subscribe(
       response => {
-        console.log('Appointment updated successfully', response);
         alert('Appointment updated successfully!');
         this.appointmentSharedService.triggerRefreshAppointments();
       },
       error => {
         console.error('Error updating appointment', error);
-        alert('Error updating appointment');
+        this.errorMessage = error.error || 'Error updating appointment';
+        alert(this.errorMessage);
+        this.appointmentSharedService.triggerRefreshAppointments();
       }
     );
   }

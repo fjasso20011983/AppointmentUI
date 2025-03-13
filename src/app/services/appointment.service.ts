@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpErrorResponse,HttpHeaders } from '@angular/common/http';
 import { catchError, Observable } from 'rxjs';
 import { throwError } from 'rxjs';
-import { AppointmentModel } from '../models/appointment.model';  // Asegúrate de que la ruta es correcta
+import { AppointmentModel } from '../models/appointment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,6 @@ export class AppointmentService {
     }
   
     updateAppointment(id: number, appointment: AppointmentModel): Observable<any> {
-      console.log(appointment);
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       return this.http.put(`${this.apiUrl}/${id}`, appointment, { headers }).pipe(catchError(this.handleError));
     }
@@ -34,13 +33,23 @@ export class AppointmentService {
       return this.http.delete(`${this.apiUrl}/${id}`).pipe(catchError(this.handleError));
     }
 
-    private handleError(error: HttpErrorResponse) {
+   /*  private handleError(error: HttpErrorResponse) {
       if (error.status === 200 && error.error instanceof SyntaxError) {
-        // Handle unexpected HTML response
         console.error('Unexpected response format:', error.error);
       } else {
-        console.error('An error occurred:', error);
+        //console.error('An error occurred:', error);
+        return error.error;
       }
       return throwError('Something bad happened; please try again later.');
-    }
+    } */
+
+      private handleError(error: HttpErrorResponse) {
+        if (error.status === 200 && error.error instanceof SyntaxError) {
+         console.error('Unexpected response format:', error.error);
+        } else {
+         console.error('An error occurred:', error);
+        }
+        return throwError(error.error);
+      }
+
 }
