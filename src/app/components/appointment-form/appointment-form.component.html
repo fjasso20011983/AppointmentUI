@@ -1,0 +1,45 @@
+<h2>Appointment Form ({{ roleName }})</h2>
+<div><button (click)="resetForm()">New Appointment</button></div>
+<form [formGroup]="applyForm" (submit)="onSubmit()" >
+  <div>
+    <label for="appointmentId">Appointment Id:</label>
+    <input type="text" id="appointmentId" formControlName="appointmentId" [(ngModel)]="appointment.appointmentId" name="appointmentId" [disabled]="true">
+  </div>
+  <div>
+    <label for="title">Title:</label>
+    <input type="text" id="title" formControlName="title" [(ngModel)]="appointment.title" name="title">
+    @if(applyForm.controls.title.errors?.['required'] && applyForm.controls.title.touched) {
+      <span class="inputError">This is required</span>
+    }
+  </div>
+  <div>
+    <label for="appointmentDate">Date:</label>
+    <input type="date" id="appointmentDate" formControlName="appointmentDate" [(ngModel)]="appointment.appointmentDate" name="appointmentDate">
+    @if(applyForm.controls.appointmentDate.errors?.['required'] && applyForm.controls.appointmentDate.touched) {
+      <span class="inputError">This is required</span>
+    }
+  </div>
+  <div>
+    <label for="time">Time:</label>
+    <input type="time" id="time" formControlName="time" [(ngModel)]="appointment.time" name="time">
+    @if(applyForm.controls.time.errors?.['required'] && applyForm.controls.time.touched) {
+      <span class="inputError">This is required</span>
+    }
+  </div>
+  <div>
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description" [(ngModel)]="appointment.description" name="description"></textarea>
+    @if(applyForm.controls.description.errors?.['required'] && applyForm.controls.description.touched) {
+      <span class="inputError">This is required</span>
+    }
+  </div>
+  <div>
+    <label for="appointmentStatusId">Status:</label>
+    <label for="appointmentStatusId">{{appointment.appointmentStatusName}}</label>
+    <input hidden type="number" id="appointmentStatusId" formControlName="appointmentStatusId" [(ngModel)]="appointment.appointmentStatusId" name="appointmentStatusId">
+   <select hidden id="appointmentStatusId" formControlName="appointmentStatusId" [(ngModel)]="appointment.appointmentStatusId" name="appointmentStatusId">
+      <option *ngFor="let status of appointmentStatusOptions" [value]="status.appointmentStatusId">{{ status.appointmentStatusName }}</option>
+    </select>
+  </div>
+  <button type="submit" [disabled]="!applyForm.valid">Save Appointment</button>
+</form>

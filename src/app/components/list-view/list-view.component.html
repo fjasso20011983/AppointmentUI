@@ -1,0 +1,20 @@
+<p>Appointments List ({{ roleName }})</p>
+<ul>
+    <li *ngFor="let item of appointment" >
+        <p hidden>{{item.appointmentId}}</p>
+        <p>{{item.title}}</p>
+        <p>{{item.description}}</p>
+        <p>{{item.appointmentDate | date: 'dd/MM/yyyy hh:mm a'}}</p>
+        <p>{{item.appointmentStatusName}}</p>
+        <p hidden>{{item.appointmentStatusId}}</p>
+        <div id="actionUser"  *ngIf="roleName == 'user'">
+            <button (click)="updateItem(item)">Update</button>
+            <button (click)="deleteAppointment(item.appointmentId)">Delete</button>
+        </div>
+        <div id="actionManager"  *ngIf="roleName == 'manager'">
+            <button class="approve" (click)="updateItemM(item.appointmentId,item,2)">Approve</button>
+            <button (click)="updateItemM(item.appointmentId,item,3)">Cancel</button>
+            <button (click)="deleteAppointment(item.appointmentId)">Delete</button>
+        </div>
+    </li>   
+</ul>
