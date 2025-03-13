@@ -1,7 +1,7 @@
 <h2>Appointment Form ({{ roleName }})</h2>
 <div><button (click)="resetForm()">New Appointment</button></div>
 <form [formGroup]="applyForm" (submit)="onSubmit()" >
-  <div>
+  <div hidden>
     <label for="appointmentId">Appointment Id:</label>
     <input type="text" id="appointmentId" formControlName="appointmentId" [(ngModel)]="appointment.appointmentId" name="appointmentId" [disabled]="true">
   </div>
